@@ -24,6 +24,3 @@ bool Clave::verifica(const char* clara)
 	key = crypt(clara,clave_.c_str());
 	return (clave_ == key);
 }
-
-s otra false
-
