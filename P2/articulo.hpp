@@ -23,7 +23,7 @@ private:
 	unsigned existencias_;
 };
 
-inline Articulo(const Cadena& referencia, const Cadena& titulo, const Fecha& publicacion, double precio, unsigned existencias):
+inline Articulo::Articulo(const Cadena& referencia, const Cadena& titulo, const Fecha& publicacion, double precio, unsigned existencias):
 		referencia_(referencia),
 		titulo_(titulo),
 		publicacion_(publicacion),

@@ -9,7 +9,6 @@ Clave::Clave(const char* key)
 	clave_ = new char[13];
 	char* salt = new char[2];
 	const char *seedchars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	srand(time(0));
 	salt[0] = seedchars[rand()%strlen(seedchars)];
 	salt[1] = seedchars[rand()%strlen(seedchars)];
 	if(strlen(key) < 5)

@@ -2,23 +2,7 @@
 #include <cstddef>
 #include "numero.hpp"
 
-bool luhn(const Cadena& numero)
-{
-  size_t n = numero.length();
-  size_t suma = 0;
-  bool alt = false;
-  for (int i = n - 1; i > -1; --i) {
-    n = numero[size_t(i)] - '0';
-    if (alt) {
-      n *= 2;
-      if (n > 9)
-	n = (n % 10) + 1;
-    }
-    alt = !alt;
-    suma += n;
-  }
-  return !(suma % 10);
-}
+bool luhn(const Cadena& numero);
 
 Numero::Numero(const Cadena& C)
 {
@@ -49,5 +33,5 @@ Numero::Numero(const Cadena& C)
 
 bool operator <(const Numero& A, const Numero& B)
 {
-	return (A<B);
+	return (strcmp(A, B) < 0);
 }

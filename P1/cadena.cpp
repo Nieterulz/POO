@@ -29,31 +29,6 @@ Cadena::Cadena(const Cadena& C) noexcept:
 	strcpy(s_, C.s_);
 }
 
-/*Cadena::Cadena(const Cadena& c, unsigned iniPos, unsigned nCar)
-{
-
-    if (iniPos >= c.tam_)
-        throw out_of_range("Llamada invalida al constructor "
-                           "Cadena(Cadena, unsigned, unsigned)");
-    else if (nCar == iniPos)
-        nCar = c.tam_ - iniPos;
-    else {
-        unsigned limit = iniPos + nCar;
-
-        if (limit > c.tam_)
-            nCar -= limit - c.tam_;
-    }
-
-    tam_ = nCar;
-
-    s_ = new char[tam_ + 1];
-
-    for(unsigned i = 0; i < tam_; i++)
-        s_[i] = c.s_[iniPos + i];
-
-    s_[tam_] = '\0';
-}
-*/
 Cadena::Cadena(Cadena&& C):s_(C.s_), tam_(C.tam_)
 {
 	C.s_ = nullptr;
