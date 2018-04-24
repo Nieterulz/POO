@@ -36,15 +36,12 @@ bool operator <(const Numero& A, const Numero& B)
 }
 
 /***************************************TARJETA************************************************/
-Tarjeta::Tarjeta(Tipo tipo, const Numero& num, const Usuario& user, const Fecha& caducidad)
+Tarjeta::Tarjeta(const Tipo tipo, const Numero& num, const Usuario& user, const Fecha& caducidad)
+	tipo_(tipo), num_(num), user_(nullptr) 
 {
+	user_.es_titular_de(*this);
 	if(caducidad < Fecha(actual))
 		throw Caducada::Caducada(caducidad);
-	tipo_ = tipo;
-	num_ = num;
-	user_ = user;
-	user_.es_titular_de(*this);
-	caducidad_ = caducidad;
 }
 
 void Tarjeta::anula_titular()

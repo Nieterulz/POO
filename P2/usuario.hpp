@@ -3,6 +3,7 @@
 
 #include <ostream>
 #include <map>
+#include <cstring>
 #include <unordered_map>
 #include <unordered_set>
 #include "cadena.hpp"
@@ -42,6 +43,7 @@ public:
 	typedef std::unordered_map<Articulo*, unsigned int> Articulos;
 	Usuario(const Cadena& id, const Cadena& nombre, const Cadena& apellidos, const Cadena& dir, const Clave& key);
 	Usuario(const Usuario& U) = delete;
+	Usuario& operator=(const Usuario& U) = delete;
 	class Id_duplicado
 	{
 	public:
@@ -55,8 +57,8 @@ public:
 	const Cadena apellidos() const {return apellidos_;}
 	const Cadena direccion() const {return dir_;}
 	const Tarjetas& tarjeta() const {return tarjet_;}
-	void es_titular_de(const Tarjeta& T);
-	void no_es_titular_de(const Tarjeta& T);
+	void es_titular_de(Tarjeta& T);
+	void no_es_titular_de(Tarjeta& T);
 	void compra(const Articulo& A, unsigned cantidad = 1);
 	const Articulos& compra() const {return art_;}
 	unsigned int n_articulos() const{ return art_.size();}

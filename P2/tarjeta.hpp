@@ -29,8 +29,9 @@ class Tarjeta
 {
 public:
 	enum Tipo{VISA, Mastercard, Maestro, JCB, AmericanExpress};
-	Tarjeta(Tipo tipo, Numero num, Usuario user, Fecha caducidad);
+	Tarjeta(const Tipo tipo, const Numero& num, const Usuario& user, const Fecha& caducidad);
 	Tarjeta(const Tarjeta& T) = delete;
+	Tarjeta& operator =(const Tarjeta& T) = delete;
 	class Caducada
 	{
 	public:
@@ -45,7 +46,6 @@ public:
 	Fecha caducidad() const {return caducidad_;}
 	Cadena titular_facial() const {return titular_facial_;}
 	void anula_titular();
-
 	~Tarjeta();
 private:
 	Tipo tipo_;
