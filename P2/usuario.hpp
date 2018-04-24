@@ -59,7 +59,7 @@ public:
 	const Tarjetas& tarjeta() const {return tarjet_;}
 	void es_titular_de(Tarjeta& T);
 	void no_es_titular_de(Tarjeta& T);
-	void compra(const Articulo& A, unsigned cantidad = 1);
+	void compra(Articulo& A, unsigned cantidad = 1);
 	const Articulos& compra() const {return art_;}
 	unsigned int n_articulos() const{ return art_.size();}
 	friend std::ostream& mostrar_carro(std::ostream& os, const Usuario& U);

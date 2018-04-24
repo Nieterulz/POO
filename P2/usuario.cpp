@@ -68,13 +68,13 @@ void Usuario::no_es_titular_de(Tarjeta& T)
 	tarjet_.erase(T.numero());
 }
 
-void Usuario::compra(const Articulo& A, unsigned cantidad)
+void Usuario::compra(Articulo& A, unsigned cantidad)
 {
 	if(cantidad)
-		art_[A] = cantidad;
+		art_[&A] = cantidad;
 	else
 	{
-		art_.erase(A);
+		art_.erase(&A);
 	}
 }
 
