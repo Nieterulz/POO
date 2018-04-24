@@ -37,8 +37,8 @@ std::ostream& operator <<(std::ostream& os, const Usuario& U)
 	os << U.id_ << " [" << U.key_.clave() << "] " << U.nombre_ << " " << U.apellidos_ << "\n"
 				 << U.dir_ << "\n"
 				 << "Tarjetas:\n";
-	for(Usuario::Tarjetas::iterator pos = U.tarjet_.begin(); pos != U.tarjet_.end(); pos++)
-		os << "<" << pos->first << ", " << pos->second.tipo() << ">\n";
+	for(auto pos = U.tarjet_.begin(); pos != U.tarjet_.end(); pos++)
+		os << "<" << pos->first << ", " << pos->second->tipo() << ">\n";
 
 	return os;
 }
@@ -48,16 +48,18 @@ std::ostream& mostrar_carro(std::ostream& os, const Usuario& U)
 	os << "Carrito de compra de " << U.id_ << " [Artículos: " << U.art_.size() << "]\n"
 	   << "	Cant. Artículo\n"
 	   << "===========================================================\n";
-	for(Usuario::Articulos::iterator pos = U.art_.begin(); pos != U.art_.end(); pos++)
+	for(auto pos = U.art_.begin(); pos != U.art_.end(); pos++)
 	{
-		os << "	" << pos->second << " [" << pos->first.referencia() << "] " << "\"" << pos->first.titulo() << "\", "
-		   << pos->first.f_publi().anno() << ". " << pos->first.precio() << " €\n";
+		os << "	" << pos->second << " [" << pos->first->referencia() << "] " << "\"" << pos->first->titulo() << "\", "
+		   << pos->first->f_publi().anno() << ". " << pos->first->precio() << " €\n";
 	}
+
+	return os;
 }
 
 void Usuario::es_titular_de(Tarjeta& T)
 {	
-	tarjet_[T.numero()] = T;
+	tarjet_[T.numero()] = &T;
 }
 
 void Usuario::no_es_titular_de(Tarjeta& T)
@@ -74,11 +76,6 @@ void Usuario::compra(const Articulo& A, unsigned cantidad)
 	{
 		art_.erase(A);
 	}
-}
-
-const Usuario::Articulos& Usuario::compra() const
-{
-	return art_;
 }
 
 Usuario::~Usuario()
