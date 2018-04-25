@@ -16,7 +16,7 @@ Clave::Clave(const char* key)
 		throw Incorrecta(ERROR_CRYPT);
 }
 
-bool Clave::verifica(const char* clara)
+bool Clave::verifica(const char* clara) const
 {
 	char* key = new char[13];
 	key = crypt(clara,clave_.c_str());
@@ -24,12 +24,12 @@ bool Clave::verifica(const char* clara)
 }
 
 /***************************************USUARIO************************************************/
-
+Usuario::Usuarios Usuario::I;
 Usuario::Usuario(const Cadena& id, const Cadena& nombre, const Cadena& apellidos, const Cadena& dir, const Clave& key):
 	id_(id), nombre_(nombre), apellidos_(apellidos), dir_(dir), key_(key)
 {
 	if(!I.insert(id).second)
-		throw Id_duplicado(id);
+		throw Id_duplicado(id_);
 }
 
 std::ostream& operator <<(std::ostream& os, const Usuario& U)

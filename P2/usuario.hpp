@@ -10,13 +10,16 @@
 #include "tarjeta.hpp"
 #include "articulo.hpp"
 
+class Numero;
+class Tarjeta;
+
 class Clave
 {
 public:
 	enum Razon{CORTA, ERROR_CRYPT};
 	Clave(const char* s); //Recibe una contraseña sin cifrar
 	Cadena clave() const;
-	bool verifica(const char* clara);
+	bool verifica(const char* clara) const;
 	class Incorrecta
 	{
 	public:
@@ -41,6 +44,7 @@ class Usuario
 public:
 	typedef std::map<Numero, Tarjeta*> Tarjetas;
 	typedef std::unordered_map<Articulo*, unsigned int> Articulos;
+	typedef std::unordered_set<Cadena> Usuarios;
 	Usuario(const Cadena& id, const Cadena& nombre, const Cadena& apellidos, const Cadena& dir, const Clave& key);
 	Usuario(const Usuario& U) = delete;
 	Usuario& operator=(const Usuario& U) = delete;
@@ -56,7 +60,7 @@ public:
 	const Cadena nombre() const {return nombre_;}
 	const Cadena apellidos() const {return apellidos_;}
 	const Cadena direccion() const {return dir_;}
-	const Tarjetas& tarjeta() const {return tarjet_;}
+	const Tarjetas& tarjetas() const {return tarjet_;}
 	void es_titular_de(Tarjeta& T);
 	void no_es_titular_de(Tarjeta& T);
 	void compra(Articulo& A, unsigned cantidad = 1);
@@ -66,7 +70,7 @@ public:
 	friend std::ostream& operator <<(std::ostream& os, const Usuario& U);
 	~Usuario();
 private:
-	static std::unordered_set<Cadena> I;
+	static Usuarios I;
 	Cadena id_, nombre_, apellidos_, dir_;
 	Clave key_;
 	Tarjetas tarjet_;

@@ -2,6 +2,10 @@
 #define TARJETA_HPP
 
 #include <iostream>
+#include <iomanip>
+#include <algorithm>
+#include <cstring>
+#include "usuario.hpp"
 #include "fecha.hpp"
 #include "cadena.hpp"
 
@@ -29,7 +33,7 @@ class Tarjeta
 {
 public:
 	enum Tipo{VISA, Mastercard, Maestro, JCB, AmericanExpress};
-	Tarjeta(const Tipo tipo, const Numero& num, const Usuario& user, const Fecha& caducidad);
+	Tarjeta(const Tipo tipo, const Numero& num, Usuario& user, const Fecha& caducidad);
 	Tarjeta(const Tarjeta& T) = delete;
 	Tarjeta& operator =(const Tarjeta& T) = delete;
 	class Caducada
@@ -54,5 +58,9 @@ private:
 	Fecha caducidad_;
 	Cadena titular_facial_;
 };
+
+bool operator <(const Tarjeta& A, const Tarjeta& B);
+std::ostream& operator <<(std::ostream& os, const Tarjeta& T);
+std::ostream& operator <<(std::ostream& os, const Tarjeta::Tipo& T);
 
 #endif
