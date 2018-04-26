@@ -18,8 +18,9 @@ Cadena::Cadena(unsigned tam, char c) noexcept:
 }
 
 Cadena::Cadena(const char* s) noexcept:
-	s_{new char[strlen(s)+1]}, tam_{(unsigned)strlen(s)}
+	tam_{(unsigned)strlen(s)}
 {
+	s_ = new char[tam_+1];
 	strcpy(s_, s);
 }
 
@@ -101,14 +102,13 @@ char& Cadena::at(unsigned i)
 
 Cadena Cadena::substr(unsigned i, unsigned t) const
 {
-	unsigned j;
-
 	if(i < tam_)
 	{
 		if(tam_-i >= t)
 		{
 			Cadena aux{t};
-			for(j=0; j<t; j++) //Nihil novum sub solem
+			unsigned j=0;
+			for(j=0; j<t; j++)
 			{
 				aux.s_[j] = s_[i+j];
 			}

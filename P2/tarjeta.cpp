@@ -2,37 +2,45 @@
 
 /***************************************NUMERO************************************************/
 bool luhn(const Cadena& numero);
-
-
-Numero::Numero(const Cadena& C)
+Numero::Numero(Cadena C)
 {
-	Cadena AUX(C);
-	
-	for(int i=0; i<AUX.length(); i++)
+	int spaces = 0;
+	for(int i = 0; i<C.length(); i++)
 	{
-		if((AUX[i] < '0' || AUX[i] > '9') && AUX[i] != '\0')
-			throw Incorrecto(DIGITOS);
-
-		if(AUX[i] == ' ')
+		if(std::isspace(C[i]) || C[i] == '\v' || C[i] == '\r' || C[i] == '\t' || C[i] == '\n')
 		{
-			for(int j = i; j<AUX.length(); j++)
-				AUX[j] = AUX[j+1];
+			spaces++;
+			for(int j=i; j<C.length(); j++)
+			{
+				C[j] = C[j+1];
+			}
 			i--;
 		}
 	}
 
-	if(AUX.length() < 13 || AUX.length() > 19)
-		throw Incorrecto(LONGITUD);
+	char *tmp = new char[C.length() - spaces +1];
+	strcpy(tmp, C.c_str());
+	for(int i=0; i<strlen(tmp); i++)
+	{
+		if(tmp[i] < '0' || tmp[i] > '9')
+		{
+			throw Incorrecto(Razon::DIGITOS);
+		}
+	}
 
-	num_ = AUX;
-
-	if(!luhn(num_))
-		throw Incorrecto(NO_VALIDO);
+  	if(strlen(tmp)< 13 || strlen(tmp) > 19)
+  		throw Incorrecto(Razon::LONGITUD);
+  	if(!luhn(tmp))
+  		throw Incorrecto(Razon::NO_VALIDO);
+	num_ = tmp;
 }
 
 bool operator <(const Numero& A, const Numero& B)
 {
-	return (strcmp(A, B) < 0);
+	if(strcmp(A, B) < 0)
+		return true;
+	else
+		return false;
 }
 
 /***************************************TARJETA************************************************/
@@ -63,14 +71,10 @@ std::ostream& operator <<(std::ostream& os, const Tarjeta& T)
 {
 	os << T.tipo() << "\n"
 		<< T.numero() << "\n"
-		<< T.titular() << "\n"
-		<< "Caduca: " << std::setfill('0') << std::setw(2) << T.caducidad().mes() << "/" << std::setw(2) << T.caducidad().anno() << "\n"; 
+		<< T.titular_facial() << "\n"
+		<< "Caduca: " << std::setfill('0') << std::setw(2) << T.caducidad().mes() << "/" << std::setw(2) 
+		<< (T.caducidad().anno())%100 << "\n";
 
-	/*os << "+----------------+\n"
-	   << "| "<< setiosflags(ios::left) << setw(16) << T.tipo() << "|\n"
-	   << "| "<< setiosflags(ios::left) << setw(16) << T.numero() << "|\n"
-	   << "| "<< setiosflags(ios::left) << setw(16) << T.titular() << "|\n"
-	   << "| Caduca: "<< setiosflags(ios::left) << setw(7) << T.caducidad() << "|\n"*/
 	return os;
 }
 
@@ -89,5 +93,5 @@ std::ostream& operator <<(std::ostream& os, const Tarjeta::Tipo& T)
 
 bool operator <(const Tarjeta& A, const Tarjeta& B)
 {
-	return(A.numero()<B.numero());
+	return(A.numero() < B.numero());
 }

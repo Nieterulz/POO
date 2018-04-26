@@ -15,7 +15,7 @@ class Numero
 {
 public:
 	enum Razon{LONGITUD, DIGITOS, NO_VALIDO};
-	Numero(const Cadena& C);
+	Numero(Cadena C);
 	operator const char*() const{return num_.c_str();}
 	class Incorrecto
 	{
@@ -60,6 +60,7 @@ private:
 };
 
 bool operator <(const Tarjeta& A, const Tarjeta& B);
+bool operator <(const Numero& A, const Numero& B);
 std::ostream& operator <<(std::ostream& os, const Tarjeta& T);
 std::ostream& operator <<(std::ostream& os, const Tarjeta::Tipo& T);
 
