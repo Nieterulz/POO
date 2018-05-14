@@ -1,38 +1,27 @@
 #include "tarjeta.hpp"
 
 /***************************************NUMERO************************************************/
+struct EsBlanco
+{
+	bool operator()(char c){return isspace(c);}
+};
+
+struct EsDigito
+{
+	bool operator()(char c){return issdigit(c)}
+};
+
 bool luhn(const Cadena& numero);
 Numero::Numero(Cadena C)
 {
-	int spaces = 0;
-	for(int i = 0; i<C.length(); i++)
-	{
-		if(std::isspace(C[i]) || C[i] == '\v' || C[i] == '\r' || C[i] == '\t' || C[i] == '\n')
-		{
-			spaces++;
-			for(int j=i; j<C.length(); j++)
-			{
-				C[j] = C[j+1];
-			}
-			i--;
-		}
-	}
-
-	char *tmp = new char[C.length() - spaces +1];
-	strcpy(tmp, C.c_str());
-	for(int i=0; i<strlen(tmp); i++)
-	{
-		if(tmp[i] < '0' || tmp[i] > '9')
-		{
-			throw Incorrecto(Razon::DIGITOS);
-		}
-	}
-
-  	if(strlen(tmp)< 13 || strlen(tmp) > 19)
+	std::remove_if(C.begin(), C.end(), EsBlanco());
+	if(std::find_if(C.begin(), C.end(), not1(EsDigito())))
+		throw Incorrecto(Razon::DIGITOS);
+  	if(C.length()< 13 || C.length() > 19)
   		throw Incorrecto(Razon::LONGITUD);
-  	if(!luhn(tmp))
+  	if(!luhn(C))
   		throw Incorrecto(Razon::NO_VALIDO);
-	num_ = tmp;
+	num_ = C;
 }
 
 bool operator <(const Numero& A, const Numero& B)

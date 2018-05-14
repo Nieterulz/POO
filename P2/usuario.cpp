@@ -91,9 +91,7 @@ void Usuario::compra(Articulo& A, unsigned cantidad)
 	if(cantidad)
 		art_[&A] = cantidad;
 	else
-	{
 		art_.erase(&A);
-	}
 }
 
 Usuario::~Usuario()

@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <cstring>
+#include <functional>
 #include "usuario.hpp"
 #include "fecha.hpp"
 #include "cadena.hpp"

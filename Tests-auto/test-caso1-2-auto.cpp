@@ -263,7 +263,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
     chk_incl_str (sTarjeta, tarjeta.titular_facial());
     chk_incl_cstr(sTarjeta, "Caduca:");
 
-    // Equivalente en C a printf("%02d/%02d", mes, anno%100);
+    // Equivalente en C++ a printf("%02d/%02d", mes, anno%100);
     ostringstream os;
     os << setfill('0') << setw(2) << tarjeta.caducidad().mes()
        << '/' << setw(2) << (tarjeta.caducidad().anno() % 100);
