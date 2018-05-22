@@ -52,7 +52,7 @@ Cadena& Cadena::operator=(Cadena&& C)
 Cadena& Cadena::operator=(const Cadena& C) noexcept
 {
 	if(*this != C)
-	{		
+	{
 		tam_ = C.tam_;
 		delete[] s_;
 		s_ = new char[tam_+1];
@@ -97,7 +97,7 @@ char& Cadena::at(unsigned i)
 	if(i <= tam_ && s_[i] != '\0')
 		return s_[i];
 
-	throw out_of_range("Error. Índice fuera del rango de la cadena.");	
+	throw out_of_range("Error. Índice fuera del rango de la cadena.");
 }
 
 Cadena Cadena::substr(unsigned i, unsigned t) const
@@ -178,7 +178,7 @@ istream& operator >>(istream &is, Cadena& A)
 	while(isspace(is.peek()) && is.good())
 		c = is.get();
 
-	while(!isspace(is.peek()) && i < 32 && is.good()) 
+	while(!isspace(is.peek()) && i < 32 && is.good())
 	{
 		c = is.get();
 		s[i] = c;
@@ -188,7 +188,7 @@ istream& operator >>(istream &is, Cadena& A)
 
 	A = Cadena(s);
 	delete []s;
-	
+
 	return is;
 }
 

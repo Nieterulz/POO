@@ -51,7 +51,7 @@ int main()
     cout << ' ' << *i;
   }
   cout << " };\n";
-  // "{ x0, x1, x2 }\n" 
+  // "{ x0, x1, x2 }\n"
 
   // 2- Con el bucle for de rango y con "auto" [C++11] (GNU C++ 4.6+)
   cout << "Impresión con for de rango y auto....: v = { ";

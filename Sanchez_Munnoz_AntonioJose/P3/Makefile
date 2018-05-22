@@ -58,7 +58,7 @@ VPATH     = .:${DIRFECHACADENA}:${DIRLUHN}:${DIRTESTS}
 
 # Estos son los ficheros que tiene que hacer el alumno. El resto se le da.
 # NOTA IMPORTANTE: usuario-pedido.cpp no hace falta si se hacen los métodos
-# de Usuario_Pedido inline, pero si se definen normales en usuario-pedido.cpp, 
+# de Usuario_Pedido inline, pero si se definen normales en usuario-pedido.cpp,
 # añádase a OWN_SRCS y quítese usuario-pedido.hpp de OWN_HDRS.
 OWN_SRCS  = usuario.cpp tarjeta.cpp articulo.cpp pedido-articulo.cpp pedido.cpp
 OWN_HDRS  = $(OWN_SRCS:.cpp=.hpp) usuario-pedido.hpp
@@ -171,7 +171,7 @@ else
 		${NOMBREALUMNO}/${DFC}/fecha.hpp  \
 		${NOMBREALUMNO}/${DFC}/fecha.cpp  \
 		${NOMBREALUMNO}/${DFC}/Makefile   \
-#		$D/usuario-pedido.cpp
+		#$D/usuario-pedido.cpp
 # Descomentar la línea anterior si se ha escrito este fichero
 
 endif

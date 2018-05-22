@@ -1,26 +1,28 @@
 #include "tarjeta.hpp"
 
 /***************************************NUMERO************************************************/
-struct EsBlanco
-{
-	bool operator()(char c){return isspace(c);}
-};
 
-struct EsDigito
+Cadena quitar_espacios(Cadena& A)
 {
-	bool operator()(char c){return issdigit(c)}
+	std::remove_if(A.begin(),A.end()+1,[](char x){return isspace(x);});
+	return Cadena(A.c_str()) ;
+}
+
+struct EsDigito:public std::unary_function<char, bool>
+{
+	bool operator()(char c){return isdigit(c);}
 };
 
 bool luhn(const Cadena& numero);
 Numero::Numero(Cadena C)
 {
-	std::remove_if(C.begin(), C.end(), EsBlanco());
-	if(std::find_if(C.begin(), C.end(), not1(EsDigito())))
+	quitar_espacios(C);
+	if(std::find_if(C.begin(), C.end(), std::not1(EsDigito())) != C.end())
 		throw Incorrecto(Razon::DIGITOS);
-  	if(C.length()< 13 || C.length() > 19)
-  		throw Incorrecto(Razon::LONGITUD);
-  	if(!luhn(C))
-  		throw Incorrecto(Razon::NO_VALIDO);
+  if(C.length()< 13 || C.length() > 19)
+  	throw Incorrecto(Razon::LONGITUD);
+  if(!luhn(C))
+  	throw Incorrecto(Razon::NO_VALIDO);
 	num_ = C;
 }
 
@@ -39,7 +41,7 @@ Tarjeta::Tarjeta(const Tipo tipo, const Numero& num, Usuario& user, const Fecha&
 	Fecha actual;
 	user.es_titular_de(*this);
 	if(caducidad < actual)
-		throw Caducada::Caducada(caducidad);
+		throw Caducada(caducidad);
 }
 
 void Tarjeta::anula_titular()
@@ -61,7 +63,7 @@ std::ostream& operator <<(std::ostream& os, const Tarjeta& T)
 	os << T.tipo() << "\n"
 		<< T.numero() << "\n"
 		<< T.titular_facial() << "\n"
-		<< "Caduca: " << std::setfill('0') << std::setw(2) << T.caducidad().mes() << "/" << std::setw(2) 
+		<< "Caduca: " << std::setfill('0') << std::setw(2) << T.caducidad().mes() << "/" << std::setw(2)
 		<< (T.caducidad().anno())%100 << "\n";
 
 	return os;

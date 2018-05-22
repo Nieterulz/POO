@@ -3,7 +3,7 @@
 
 /***************************************CLAVE************************************************/
 
-class SNA 
+class SNA
 {
 public:
 	SNA() {std::srand(std::time(nullptr));}
@@ -36,7 +36,7 @@ bool Clave::verifica(const char* clara) const
 Usuario::Usuarios Usuario::I;
 Usuario::Usuario(const Cadena& id, const Cadena& nombre, const Cadena& apellidos, const Cadena& dir, const Clave& key):
 	id_(id), nombre_(nombre), apellidos_(apellidos), dir_(dir), key_(key)
-{	
+{
 	if(!I.insert(id).second)
 		throw Id_duplicado(id);
 }
@@ -86,7 +86,7 @@ void Usuario::no_es_titular_de(Tarjeta& T)
 	tarjet_.erase(T.numero());
 }
 
-void Usuario::compra(Articulo& A, unsigned cantidad)
+void Usuario::compra(Articulo& A, unsigned int cantidad)
 {
 	if(cantidad)
 		art_[&A] = cantidad;
