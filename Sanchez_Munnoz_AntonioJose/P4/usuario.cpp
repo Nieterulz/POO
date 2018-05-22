@@ -12,6 +12,7 @@ SNA sna;
 
 Clave::Clave(const char* key)
 {
+	clave_ = new char[13];
 	char* salt = new char[2];
 	const char *seedchars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	salt[0] = seedchars[rand()%64];
