@@ -6,7 +6,7 @@
 #include <cstring>
 #include <unordered_map>
 #include <unordered_set>
-#include "cadena.hpp"
+#include "../P1/cadena.hpp"
 #include "tarjeta.hpp"
 #include "articulo.hpp"
 

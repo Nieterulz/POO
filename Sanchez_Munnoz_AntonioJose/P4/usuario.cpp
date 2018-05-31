@@ -6,13 +6,12 @@
 class SNA
 {
 public:
-	SNA() {std::srand(std::time(nullptr));}
+	SNA() {std::srand(time(nullptr));}
 };
 SNA sna;
 
 Clave::Clave(const char* key)
 {
-	clave_ = new char[13];
 	char* salt = new char[2];
 	const char *seedchars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	salt[0] = seedchars[rand()%64];
@@ -56,22 +55,18 @@ std::ostream& operator << (std::ostream&os,const Usuario& user)
 std::ostream& mostrar_carro(std::ostream& os, const Usuario& user)
 {
 	os << "Carrito de compra de " << user.id() << " [Artículos: "
-	 << user.n_articulos() << "]" << std::endl;
-	 os << " Cant. Artículo" << std::endl
+	 << user.n_articulos() << "]" << "\n";
+	 os << " Cant. Artículo" << "\n"
 	    << std::setw(95) << std::setfill('=') << '\n'  << std::setfill(' ');
-	int tmp = user.n_articulos();
-	while(tmp > 0)
-	{
-		for (auto& i : user.compra())
-		{
-			os << std::setw(4) << i.second << "   "
-			<< "[" << (*i.first).referencia() << "] \""
-			<< (*i.first).titulo() << "\", " << (*i.first).f_publi().anno()
-			<< ". " << std::fixed << std::setprecision(2) << (*i.first).precio()
-			<< " €" << std::endl;
-			--tmp;
-		}
-	}
+		for (auto i : user.compra())
+    {
+        os << std::setw(4) << i.second << "   ";
+        os << "[" << i.first->referencia() << "] \"" << i.first->titulo()
+        << "\", " << i.first->f_publi().anno()       << ". " << std::fixed
+        << std::setprecision(2) << i.first->precio() << " €" << std::endl;
+    }
+
+
 	return os;
 }
 

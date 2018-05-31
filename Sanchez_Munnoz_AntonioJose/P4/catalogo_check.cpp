@@ -39,7 +39,7 @@ int main(int argc, const char **argv){
 	        c1.methodWithReferencedMemberVariable({"impresion_especifica"}, {{"class std::basic_ostream<char> &"}}, "LibroDigital", {"const"}, {"f_expir_"},"Revisa qué debe imprimir la definición del método impresion_especifica en cada clase.");
         	c1.method({"nombre","apellidos","direccion"}, {{},{},{}}, "Autor", {"const","const","const"}, "Revisa el uso de métodos constantes.");
         	c1.noExceptMethod({"nombre","apellidos","direccion"},{{},{},{}}, "Autor", {"const","const","const"}, "Revisa el enunciado respecto a las excepciones.");
-	
+
 		c1.check();
 
     	}else{
@@ -52,11 +52,11 @@ int main(int argc, const char **argv){
         c2.setIncorrectMessage("REVISA LOS ERRORES DE TARJETA.");
 
         if(c2.findClass({"Tarjeta"})){
-                
+
 		 llvm::outs() << "* tarjeta.cpp:\n";
 
 		c2.invocationsFromHeaders(functionNames, headerName, true, "Revisa de dónde son tomadas las funciones de la biblioteca estándar como strlen, strcpy...");
-	
+
 		c2.allPrivateVariableMember("Tarjeta", "Revisa el acceso a los atributos.");
 
 		c2.notFriendMember("Tarjeta", "Revisa por qué es necesario incluir 'friend'.");
@@ -82,24 +82,24 @@ int main(int argc, const char **argv){
         c3.setIncorrectMessage("REVISA LOS ERRORES DE USUARIO.");
 
         if(c3.findClass({"Usuario"})){
-	
+
 	        llvm::outs() << "* usuario.cpp:\n";
 
-		c3.invocationsFromHeaders(functionNames, headerName, true, "Revisa de dónde son tomadas las funciones de la biblioteca estándar como strlen, strcpy...");                
+		c3.invocationsFromHeaders(functionNames, headerName, true, "Revisa de dónde son tomadas las funciones de la biblioteca estándar como strlen, strcpy...");
 
 		c3.allPrivateVariableMember("Usuario", "Revisa el acceso a los atributos.");
-	
+
                 //Constructor copia y de asignación
-                c3.deletedMethod({"Usuario", "operator="}, {{"const class Usuario &"}, {"const class Usuario &"}}, "Usuario", {"noconst", "noconst"}, "Revisa el enunciado respecto a la copia de objetos.");	
+                c3.deletedMethod({"Usuario", "operator="}, {{"const class Usuario &"}, {"const class Usuario &"}}, "Usuario", {"noconst", "noconst"}, "Revisa el enunciado respecto a la copia de objetos.");
 
 		c3.numberOfConstructors("Usuario", 1, false, "Revisa el enunciado respecto a los constructores en esta clase.");
-	
+
 		c3.friendFunction({"operator<<"}, {{"?"}}, "Usuario", "Revisa si existen funciones que deben ser marcadas como amigas de la clase.");
 		vector<string> methodNames = {"id", "nombre", "apellidos"};
 		vector<vector<string> > parametersMethods = {{},{},{}};
 		c3.inlineMethod(methodNames, parametersMethods, "Usuario", {"const", "const", "const"}, "Sugerencia: incluir marca 'inline' a aquellos métodos con pocas instrucciones, como 'id()', 'nombre()' o 'apellidos()'.");
 
-		c3.guardClauses("usuario.hpp", "Recuerda añadir las guardas de inclusión.");	
+		c3.guardClauses("usuario.hpp", "Recuerda añadir las guardas de inclusión.");
 
                 c3.check();
 
@@ -116,8 +116,8 @@ int main(int argc, const char **argv){
 
 	        llvm::outs() << "* pedido.cpp:\n";
 
-		c4.invocationsFromHeaders(functionNames, headerName, true, "Revisa de dónde son tomadas las funciones de la biblioteca estándar como strlen, strcpy...");        
- 
+		c4.invocationsFromHeaders(functionNames, headerName, true, "Revisa de dónde son tomadas las funciones de la biblioteca estándar como strlen, strcpy...");
+
 		c4.allPrivateVariableMember("Pedido", "Revisa el acceso a los atributos.");
 
                 c4.numberOfConstructors("Pedido", 1, false, "Revisa el enunciado respecto a la construcción de objetos.");
@@ -157,7 +157,7 @@ int main(int argc, const char **argv){
                 vector<string> params = {"double", "unsigned int"};
                 vector<vector<string> > methodsParams;
                 methodsParams = {params};
-                
+
 		c5.defaultArgumentsInMethod({"LineaPedido"}, methodsParams, "LineaPedido", {"?"}, {1}, {{"1.*"}}, "Revisa el enunciado respecto a la construcción de objetos.");
 
                 c5.explicitSpecifiedConstructor("LineaPedido", params, "Revisa el enunciado respecto a conversiones implícitas.");

@@ -2,36 +2,50 @@
 #include <iomanip>
 #include "pedido.hpp"
 
-class Pedido;
-
 int Pedido::N_pedidos = 0;
 
 Pedido::Pedido(Usuario_Pedido& U_P, Pedido_Articulo& P_A, Usuario& usuario, const Tarjeta& tarjeta, const Fecha& fecha)
 	:num_(N_pedidos +1), tarjeta_(&tarjeta), fecha_(fecha), total_(0)
 {
-	if(usuario.n_articulos() == 0)
-		throw Vacio(usuario); //¿Carrito vacio?
-	if(tarjeta.titular() != &usuario)
-		throw Impostor(usuario); //¿Tarjeta mangada?
-	if(tarjeta.caducidad() < fecha)
-		throw Tarjeta::Caducada(tarjeta.caducidad()); // Tarjeta
-	for(auto c : usuario.compra()) //c es un elemento del map => (pair<Articulo*, unsigned>)
-		if(c.first->stock() < c.second) //No hay bastante en el almacén
-		{
-			const_cast<Usuario::Articulos&>(usuario.compra()).clear();
-			throw SinStock(*c.first);
-		}
+	if(usuario.n_articulos() == 0) throw Vacio(usuario);
+	if(tarjeta.titular() != &usuario) throw Impostor(usuario);
+	if(tarjeta.caducidad() < fecha) throw Tarjeta::Caducada(tarjeta.caducidad()); // Tarjeta
+
 	Usuario::Articulos carro = usuario.compra();
-	for(auto c : carro)
+	bool pedido_final_vacio = true;
+	for(auto c : carro) //c es un pair<Articulo*,unsigned(cantidad)>
 	{
 		Articulo* pa = c.first;
 		unsigned int cantidad = c.second;
-		double precio = pa->precio();
-		pa->stock() -= cantidad;
-		P_A.pedir(*this, *pa, precio, cantidad);
-		total_ += precio*cantidad;
-		usuario.compra(*pa, 0);
+		if(ArticuloAlmacenable* aa =  dynamic_cast<ArticuloAlmacenable* const>(pa))
+		{
+			if(aa->stock() < cantidad)
+			{
+				const_cast<Usuario::Articulos&>(usuario.compra()).clear();
+				throw SinStock(*c.first);
+			}
+			double precio = pa->precio();
+			aa->stock() -= cantidad;
+			P_A.pedir(*this, *aa, precio, cantidad);
+			total_ += precio*cantidad;
+			pedido_final_vacio = false;
+		}
+		else //No es un ArticuloAlmacenable
+			if(LibroDigital* ld = dynamic_cast<LibroDigital*>(pa))
+			{
+				if(ld->f_expir() > fecha)
+				{
+					total_ += (ld->precio() * cantidad);
+					P_A.pedir(*this, *ld, ld->precio(), cantidad);
+					pedido_final_vacio = false;
+				}
+			}
+			else
+				throw std::logic_error("Pedido::Pedido: error, tipo de Articulo desconocido");
+			usuario.compra(*(c.first),0);
 	}
+	if(pedido_final_vacio)
+		throw Vacio(usuario);
 	U_P.asocia(usuario, *this);
 	++N_pedidos;
 }
